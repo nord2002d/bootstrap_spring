@@ -102,9 +102,11 @@
                     <td th:text="${user.surName}"></td>
                     <td th:text="${user.age}"></td>
                     <td th:text="${user.email}"></td>
-                    <span th:each="userRole:${user?.getRoles()}">
-                    <td th:text="${userRole?.name()}"></td>
-                    </span>
+                    <td>
+                      <th:block th:each="role: ${user?.getRoles()}">
+                        <a th:text="${role.name()} "></a>
+                      </th:block>
+                    </td>
                     <td>
                       <button id="update-form" type="button" class="btn btn-info btn-default" data-bs-toggle="modal"
                               data-bs-target="#modalUpdate" th:data-userId="${user.id}">Edit
@@ -174,9 +176,9 @@
                           <div class="row">
                             <label for="role-f1" class="text-center fw-bolder col-form-label">Role</label>
                             <div class="col-6 mx-auto">
-                              <select class="form-select mt"  size="2" aria-label="size 2 select example" id="role-f1">
-                                <option value="1">ADMIN</option>
-                                <option selected value="2">USER</option>
+                              <select multiple class="form-select mt" size="2" aria-label="size 2 select example" id="role-f1">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
                               </select>
                             </div>
                           </div>
@@ -236,9 +238,9 @@
                           <div class="row">
                             <label for="role-f2" class="text-center fw-bolder col-form-label">Role</label>
                             <div class="col-6 mx-auto">
-                              <select class="form-select mt" size="2" aria-label="size 2 select example" id="role-f2">
-                                <option value="1">ADMIN</option>
-                                <option value="2">USER</option>
+                              <select multiple class="form-select mt" size="2" aria-label="size 2 select example" id="role-f2">
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="USER">USER</option>
                               </select>
                             </div>
                           </div>
@@ -300,9 +302,9 @@
                           </div>
                           <label for="r-f1" class="text-center fw-bolder col-form-label">Role</label>
                           <div class="col-3 mx-auto">
-                            <select class="form-select mt"   name="roles" size="2" aria-label="size 2 select example" id="r-f1">
-                              <option value="1">ADMIN</option>
-                              <option selected value="2">USER</option>
+                            <select multiple="multiple" class="form-select mt" name="roles" size="2" aria-label="size 2 select example" id="r-f1">
+                              <option value="ADMIN">ADMIN</option>
+                              <option value="USER">USER</option>
                             </select>
                           </div>
                         </div>
@@ -358,9 +360,11 @@
                            <td th:text="${user.surName}"></td>
                            <td th:text="${user.age}"></td>
                            <td th:text="${user.email}"></td>
-                           <span th:each="userRole:${user?.getRoles()}">
-                           <td th:text="${userRole?.name()}"></td>
-                           </span>
+                           <td>
+                             <th:block th:each="role: ${user?.getRoles()}">
+                               <a th:text="${role.name()} "></a>
+                             </th:block>
+                           </td>
                          </tr>
                          </tbody>
                        </table>

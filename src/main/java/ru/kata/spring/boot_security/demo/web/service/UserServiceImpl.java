@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,7 +27,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserDaoImpl userDaoImp;
-
+    @Autowired
     public UserServiceImpl(UserDaoImpl userDaoImp) {
         this.userDaoImp = userDaoImp;
     }

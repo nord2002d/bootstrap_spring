@@ -24,8 +24,6 @@ public class ControllerExceptionHandler {
         return new ResponseEntity( ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)

@@ -33,7 +33,7 @@ $('#update-button').click(function () {
         age: modal.find('#age-f1').val(),
         email: modal.find('#email-f1').val(),
         password: valuePass,
-        roles: [modal.find($("#role-f1 :selected")).text()],
+        roles: $('#role-f1').val()
     };
 
     $.ajaxSetup({contentType: "application/json; charset=utf-8"});
@@ -106,14 +106,13 @@ $('#delete-button').click(function () {
 
 $('#userAdd-button').click(function () {
     let form = $('#nav-profile')
-
     let user = {
         username: form.find('#user-n-f1').val(),
         surName: form.find('#user-l-f1').val(),
         age: form.find('#a-f1').val(),
         email: form.find('#e-f1').val(),
         password: form.find('#p-f1').val(),
-        roles: [$("#r-f1 :selected").text()],
+        roles: $('#r-f1').val(),
 
     };
 
