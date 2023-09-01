@@ -5,7 +5,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserEmailException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserNotFoundException;
-import ru.kata.spring.boot_security.demo.web.model.Role;
 import ru.kata.spring.boot_security.demo.web.model.User;
 import ru.kata.spring.boot_security.demo.web.service.UserService;
 
