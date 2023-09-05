@@ -37,7 +37,7 @@ public class User implements UserDetails {
     @NotBlank( message = "не может быть пустым, заполните поле")
     @Column(name = "password")
     private String password;
-    @NotNull( message = "не может быть пустым, выберите РОЛЬ для пользователя")
+    @NotEmpty( message = "не может быть пустым, выберите РОЛЬ для пользователя")
     @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id",foreignKey = @javax.persistence.ForeignKey(name = "none")))
     @Enumerated(EnumType.STRING)

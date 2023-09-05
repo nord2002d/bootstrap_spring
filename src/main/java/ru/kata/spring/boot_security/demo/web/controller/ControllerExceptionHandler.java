@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.kata.spring.boot_security.demo.web.exeptions.UserDeleteException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserEmailException;
 import ru.kata.spring.boot_security.demo.web.exeptions.Violation;
 
@@ -23,7 +24,6 @@ public class ControllerExceptionHandler {
     ResponseEntity<String> handleUserNameDuplicated(UserEmailException ex) {
         return new ResponseEntity( ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
@@ -33,6 +33,13 @@ public class ControllerExceptionHandler {
                 .map(violation -> String.valueOf(new Violation(violation.getPropertyPath().toString(),violation.getMessage())))
                 .toList();
          return new ResponseEntity( violations, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({UserDeleteException.class })
+    ResponseEntity<String> handleUserDeleteException(UserDeleteException ex) {
+        return new ResponseEntity( ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

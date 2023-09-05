@@ -13,11 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.web.dao.UserDaoImpl;
+import ru.kata.spring.boot_security.demo.web.exeptions.UserDeleteException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserEmailException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserNotFoundException;
 import ru.kata.spring.boot_security.demo.web.model.User;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +34,22 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User add(@Valid User user) throws UserEmailException {
+    public User add(User user) throws UserEmailException {
         if(!checkEmail(user)) {
             throw new UserEmailException(String.format("Пользователь с email %s уже существует, укажите другой email",user.getEmail()));
         }
-        return userDaoImp.add(user);
+        User addUser = new User();
+        addUser.setUsername(user.getUsername());
+        addUser.setSurName(user.getSurName());
+        addUser.setAge(user.getAge());
+        addUser.setEmail(user.getEmail());
+        addUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        addUser.setRoles(user.getRoles());
+        return userDaoImp.add(addUser);
     }
     @Transactional
     @Override
-    public User update(@Valid User updateUser) throws UserEmailException {
+    public User update(User updateUser) throws UserEmailException {
         User userFromDB = userDaoImp.getUser(updateUser.getId());
         if(!checkEmail(updateUser)) {
             throw new UserEmailException(
@@ -83,12 +90,12 @@ public class UserServiceImpl implements UserService {
     }
     @Transactional
     @Override
-    public void removeUser(long id) throws UserNotFoundException {
-        Optional<User> user = Optional.ofNullable(userDaoImp.getUser(id));
-        if (user.isPresent()) {
-            userDaoImp.removeUser(user.get());
+    public void removeUser(User user, Principal principal) throws UserDeleteException, ParseException, JsonProcessingException {
+        String email = getEmailAuthentication(principal);
+        if (!email.equals(user.getEmail())) {
+            userDaoImp.removeUser(user);
         } else {
-            throw new UserNotFoundException(String.format("Пользователь с таки id - %d не найден", id));
+            throw new UserDeleteException("Пользователь владеющий сеансом не может быть удален");
         }
     }
 
@@ -115,7 +122,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void verificationPassword(User updateUser, User userFromDB) {
-        if (updateUser.getPassword().equals(userFromDB.getPassword())) {
+        if (updateUser.getPassword().equals("") || updateUser.getPassword().equals(userFromDB.getPassword())) {
             userFromDB.setPassword(userFromDB.getPassword());
             return;
         }

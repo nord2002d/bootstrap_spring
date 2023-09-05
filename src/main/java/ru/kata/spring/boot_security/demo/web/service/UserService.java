@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.web.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.json.simple.parser.ParseException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import ru.kata.spring.boot_security.demo.web.exeptions.UserDeleteException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserEmailException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserNotFoundException;
 import ru.kata.spring.boot_security.demo.web.model.User;
@@ -17,7 +18,7 @@ public interface UserService extends UserDetailsService  {
 
     User getUser(long id) throws UserNotFoundException;
 
-    void removeUser(long id) throws UserNotFoundException;
+    void removeUser(User user,Principal principal) throws ParseException, JsonProcessingException, UserDeleteException;
 
     User update(User user) throws UserEmailException;
 

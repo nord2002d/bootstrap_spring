@@ -21,7 +21,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="text-light fs-5 withoutLine">
-        <td th:text="${adminUser.email}"/>
+        <td id="admin" th:text="${adminUser.email}"/>
       </a>
       <a class="text-light fs-5 withoutLine">with roles:</a>
       <tr th:each="ua: ${adminUser.getRoles()}">
@@ -169,7 +169,6 @@
                           <div class="row">
                             <label for="pass-f1" class="text-center fw-bolder col-form-label">Password</label>
                             <div class="col-6 mx-auto">
-                              <input style="display: none" type="password"  class="form-control form-control-sm text-start mt" id="passNotShow-f1">
                               <input type="text" class="form-control form-control-sm text-start mt" id="pass-f1">
                             </div>
                           </div>

@@ -12,7 +12,6 @@ $('#modalUpdate').on('show.bs.modal', function (event) {
                 modal.find('#user-lastName-f1').val(data.surName)
                 modal.find('#age-f1').val(data.age)
                 modal.find('#email-f1').val(data.email)
-                modal.find('#passNotShow-f1').val(data.password)
                 modal.find('#r-f1').val(data.role)
             },
             error: function (xhr, status, error) {
@@ -25,14 +24,13 @@ $('#modalUpdate').on('show.bs.modal', function (event) {
 
 $('#update-button').click(function () {
     let modal = $('#modalUpdate')
-    let valuePass = modal.find('#pass-f1').val().length == 0 ? modal.find('#passNotShow-f1').val() : modal.find('#pass-f1').val();
     let user = {
         id: modal.find('#user-id-f1').val(),
         username: modal.find('#user-name-f1').val(),
         surName: modal.find('#user-lastName-f1').val(),
         age: modal.find('#age-f1').val(),
         email: modal.find('#email-f1').val(),
-        password: valuePass,
+        password: modal.find('#pass-f1').val(),
         roles: $('#role-f1').val()
     };
 
@@ -67,7 +65,6 @@ $('#modalDelete').on('show.bs.modal', function (event) {
                 modal.find('#user-lastName-f2').val(data.surName)
                 modal.find('#age-f2').val(data.age)
                 modal.find('#email-f2').val(data.email)
-                modal.find('#pass-f2').val(data.email)
                 modal.find('#role-f2').val(data.roles)
             },
 
@@ -86,7 +83,6 @@ $('#delete-button').click(function () {
         surName: modal.find('#user-lastName-f2').val(),
         age: modal.find('#age-f2').val(),
         email: modal.find('#email-f2').val(),
-        password: modal.find('#pass-f2').val(),
         role: modal.find('#role-f2').val(),
     };
 
@@ -99,6 +95,9 @@ $('#delete-button').click(function () {
         success: () => {
             $("#tableUser").load(window.location + " #tableUser");
         },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
     });
 
 });

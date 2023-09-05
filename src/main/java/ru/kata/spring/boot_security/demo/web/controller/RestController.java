@@ -1,12 +1,17 @@
 package ru.kata.spring.boot_security.demo.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.web.exeptions.UserDeleteException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserEmailException;
 import ru.kata.spring.boot_security.demo.web.exeptions.UserNotFoundException;
 import ru.kata.spring.boot_security.demo.web.model.User;
 import ru.kata.spring.boot_security.demo.web.service.UserService;
+
+import java.security.Principal;
 
 
 @org.springframework.web.bind.annotation.RestController
@@ -19,37 +24,22 @@ public class RestController {
     }
 
     @GetMapping("{userId}")
-    public  User getUser(@PathVariable long userId) throws UserNotFoundException {
-        return userService.getUser(userId);
+    public ResponseEntity<User>getUser(@PathVariable long userId) throws UserNotFoundException {
+        return ResponseEntity.ok(userService.getUser(userId));
     }
     @PostMapping
-    public User addUser(@RequestBody User user) throws UserEmailException {
-        User addUser = new User();
-        addUser.setUsername(user.getUsername());
-        addUser.setSurName(user.getSurName());
-        addUser.setAge(user.getAge());
-        addUser.setEmail(user.getEmail());
-        addUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        addUser.setRoles(user.getRoles());
-        return userService.add(addUser);
+    public ResponseEntity<User> addUser(@RequestBody User user) throws UserEmailException {
+        return ResponseEntity.ok(userService.add(user));
     }
 
     @PatchMapping
-    public User updateUser(@RequestBody User user) throws UserEmailException {
-        User userUpdate = new User();
-        userUpdate.setId(user.getId());
-        userUpdate.setUsername(user.getUsername());
-        userUpdate.setSurName(user.getSurName());
-        userUpdate.setAge(user.getAge());
-        userUpdate.setEmail(user.getEmail());
-        userUpdate.setPassword(user.getPassword());
-        userUpdate.setRoles(user.getRoles());
-        return userService.update(userUpdate);
+    public ResponseEntity<User> updateUser(@RequestBody User user) throws UserEmailException {
+        return ResponseEntity.ok(userService.update(user));
     }
 
     @DeleteMapping
-    public User deleteUser(@RequestBody User user) throws UserNotFoundException {
-        userService.removeUser(user.getId());
-        return new User();
+    public ResponseEntity<User> deleteUser(@RequestBody User user, Principal principal) throws ParseException, JsonProcessingException, UserDeleteException {
+        userService.removeUser(user,principal);
+        return ResponseEntity.noContent().build();
     }
 }
